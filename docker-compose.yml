@@ -1,0 +1,33 @@
+version: "3"
+services:
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+      - 443:443
+      
+  mongo:
+    image: mongo
+    restart: unless-stopped
+    volumes:
+      - mongo-data:/data/db
+  
+  backend:
+    restart: always
+    depends_on:
+      - mongo
+    container_name: backend
+    build: ./backend
+    expose:
+      - 5000
+    environment:
+      - FLASK_ENV=production
+      - FLASK_APP=app.py
+      - MONGO_URI=mongodb://mongo/
+      - APP_SETTINGS=server.config.ProductionConfig
+      
+  volumes:
+    mongo-data
