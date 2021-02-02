@@ -58,7 +58,7 @@ class TeapotException(APIException):
 
 class NotFoundException(APIException):
     """404 status code use for Automated Requests & Rate Limiting."""
-
+    code = 404
     def __init__(self, message="I'm a teapot.", payload=None):
         super().__init__(message=message, status_code=404, payload=payload)
 

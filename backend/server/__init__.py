@@ -20,9 +20,30 @@ conf.from_object(os.getenv("APP_SETTINGS", "server.config.DevelopmentConfig"))
 
 # Init Extensions
 db = MongoEngine()
-swagger = Swagger()
 bcrypt = Bcrypt()
 mail = Mail()
+
+swagger_template = {
+    "swagger": "3.0",
+    "info": {
+        "title": "Backend API",
+        "description": "API for the Backend",
+        "contact": {
+            "responsibleOrganization": "me",
+            "responsibleDeveloper": "me",
+            "email": "simon@torrentofshame.com",
+            "url": "https://simon.weizman.us"
+        },
+        "version": "0.0.1"
+    },
+    "host": "localhost:5000",
+    "basePath": "/api",
+    "schemes": [
+        "http",
+        "https"
+    ]
+}
+swagger = Swagger(template=swagger_template)
 
 def create_app():
     """Initialize the App"""
@@ -44,17 +65,17 @@ def create_app():
     # app.register_blueprint(hackers_blueprint, url_prefix="/api/hackers")
 
     # Register Error Handlers
-    from server.common import exceptions
-    from server.common import error_handlers
+    # from server.common import exceptions
+    # from server.common import error_handlers
 
-    app.register_error_handler(exceptions.InvalidPayload, error_handlers.handle_exception)
-    app.register_error_handler(exceptions.BusinessException, error_handlers.handle_exception)
-    app.register_error_handler(exceptions.UnauthorizedException, error_handlers.handle_exception)
-    app.register_error_handler(exceptions.ForbiddenException, error_handlers.handle_exception)
-    app.register_error_handler(exceptions.NotFoundException, error_handlers.handle_exception)
-    app.register_error_handler(exceptions.TeapotException, error_handlers.handle_exception)
-    app.register_error_handler(exceptions.ServerErrorException, error_handlers.handle_exception)
-    app.register_error_handler(Exception, error_handlers.handle_general_exception)
+    # app.register_error_handler(exceptions.InvalidPayload, error_handlers.handle_exception)
+    # app.register_error_handler(exceptions.BusinessException, error_handlers.handle_exception)
+    # app.register_error_handler(exceptions.UnauthorizedException, error_handlers.handle_exception)
+    # app.register_error_handler(exceptions.ForbiddenException, error_handlers.handle_exception)
+    # app.register_error_handler(exceptions.NotFoundException, error_handlers.handle_exception)
+    # app.register_error_handler(exceptions.TeapotException, error_handlers.handle_exception)
+    # app.register_error_handler(exceptions.ServerErrorException, error_handlers.handle_exception)
+    # app.register_error_handler(Exception, error_handlers.handle_general_exception)
 
     # Setup Celery Task Runner
     celery = make_celery(app)

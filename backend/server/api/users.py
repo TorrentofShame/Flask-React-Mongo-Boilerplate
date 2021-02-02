@@ -4,7 +4,7 @@
     ~~~~~~~~~~~~~~~~
 
 """
-from flask import Blueprint, request
+from flask import Blueprint, request, render_template
 
 from server.models.user import User, UserRole
 from server import db
@@ -58,3 +58,4 @@ def get_user(username):
               default: 'john-smith'
     """
     return {"username": username}
+

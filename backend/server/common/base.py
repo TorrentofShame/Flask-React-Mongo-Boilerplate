@@ -29,7 +29,7 @@ class JSONEncoderBase(JSONEncoder):
 
 
 class ResponseBase(Response):
-    default_mimetype = "application/json"
+    # default_mimetype = "application/json"
 
     @classmethod
     def force_type(cls, rv, environ=None):

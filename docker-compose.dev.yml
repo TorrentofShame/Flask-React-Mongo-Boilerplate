@@ -6,28 +6,39 @@ services:
       context: ./frontend
       dockerfile: Dockerfile.dev
     ports:
-      - 3000:80
+      - "127.0.0.1:3000:80"
+    volumes:
+      - ./frontend:/home/frontend/app
       
   mongo:
     image: mongo
     restart: unless-stopped
+    ports:
+      - "127.0.0.1:6000:27017"
     volumes:
       - mongo-data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: backendtest
+      MONGO_INITDB_ROOT_USERNAME: backendtest
+      MONGO_INITDB_ROOT_PASSWORD: amazingpassword
   
   backend:
     restart: always
     depends_on:
       - mongo
     container_name: backend
-    build: ./backend
-    expose:
-      - 5000
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./backend:/home/backend/app
+    ports:
+      - "127.0.0.1:5000:5000"
     environment:
-      - FLASK_ENV=development
-      - FLASK_APP=app.py
-      - MONGO_URI=mongodb://mongo/
-      - FLASK_DEBUG=1
-      - APP_SETTINGS=server.config.DevelopmentConfig
+      FLASK_ENV: development
+      MONGO_URI: "mongodb://backendtest:amazingpassword@mongo/backendtest"
+      FLASK_DEBUG: 1
+      APP_SETTINGS: server.config.DevelopmentConfig
       
-  volumes:
-    mongo-data
+volumes:
+  mongo-data:

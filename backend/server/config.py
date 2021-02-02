@@ -30,7 +30,7 @@ class BaseConfig:
     MAIL_SENDER = os.getenv("MAIL_SENDER")
     CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")
     SWAGGER={
-        "uiversion": 2
+        "openapi": "3.0.0"
     }
 
 

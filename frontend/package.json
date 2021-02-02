@@ -1,0 +1,19 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+      "start": "cross-env NODE_ENV=development webpack serve --hot --env dev --progress",
+      "build": "npm run build:prod",
+      "build:prod": "cross-env NODE_ENV=production webpack --progress",
+      "build:dev": "cross-env NODE_ENV=development webpack --progress",
+      "serve": "cross-env NODE_ENV=production webpack serve --progress",
+      "lint": "eslint src",
+      "lint:fix": "npm run lint -- --fix",
+      "test": "jest src --config=./config/jest.config.js"
+  },
+  "private": true,
+  "keywords": [],
+  "author": "Simon Weizman <simon@torrentofshame.com>",
+  "license": "MIT"
+}
