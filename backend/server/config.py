@@ -39,6 +39,7 @@ class DevelopmentConfig(BaseConfig):
     DEBUG = True
     BCRYPT_LOG_ROUNDS = 4
     CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
+    SECRET_KEY = "viva la pluto"
 
 
 class TestingConfig(BaseConfig):

@@ -4,7 +4,7 @@
     ~~~~~~~~~~~~~~~~~~~~
 
 """
-from server.common.util import validate_phone_number
+from server.common.validators import validate_phone_number
 from server import db
 
 
@@ -29,6 +29,8 @@ class HackerProfile(db.EmbeddedDocument):
 class Hacker(db.Document):
     first_name = db.StringField()
     last_name = db.StringField()
+    username = db.StringField(unique=True)
+    password = db.StringField()
     email = db.EmailField(unique=True)
     phone_number = db.StringField(validation=validate_phone_number)
     profile = db.EmbeddedDocumentField(HackerProfile)
@@ -37,3 +39,17 @@ class Hacker(db.Document):
     accepted_forms = db.BooleanField()
     active_participant = db.BooleanField()
 
+    def to_json(self):
+        return {
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "username": self.username,
+            "password": self.password,
+            "email": self.email,
+            "phone_number": self.phone_number,
+            "profile": self.profile,
+            "resume": self.resume,
+            "emergency_contact": self.emergency_contact,
+            "accepted_forms": self.accepted_forms,
+            "active_participant": self.active_participant
+        }

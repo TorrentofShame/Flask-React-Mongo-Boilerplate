@@ -1,0 +1,65 @@
+User:
+  type: object
+  properties:
+    first_name:
+      type: string
+    last_name:
+      type: string
+    username:
+      type: string
+    email:
+      type: string
+    password:
+      type: string
+      format: password
+    role:
+      type: string
+Hacker:
+  type: object
+  properties:
+    first_name:
+      type: string
+    last_name:
+      type: string
+    username:
+      type: string
+    email:
+      type: string
+    phone_number:
+      type: string
+    profile:
+      type: object
+      properties:
+        gender:
+          type: string
+        ethnicity:
+          type: string
+        pronouns:
+          type: string
+        expected_graduation:
+          type: string
+        why_attend:
+          type: string
+        what_learn:
+          type: string
+        will_need_travel:
+          type: boolean
+    resume:
+      type: string
+    emergency_contact:
+      type: object
+      properties:
+        first_name:
+          type: string
+        last_name:
+          type: string
+        phone_number:
+          type: string
+        relationship:
+          type: string
+    accepted_forms:
+      type: boolean
+      description: Accepted Forms
+    active_participant:
+      type: boolean
+      description: Active Participant

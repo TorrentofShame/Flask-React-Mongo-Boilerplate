@@ -5,19 +5,30 @@
 
 """
 from flask import request
+from functools import wraps
+from werkzeug.exceptions import Unauthorized, Forbidden
 
-from server.common.exceptions import UnauthorizedException, ForbiddenException
+from server.models.user import User, UserRole
 
-def authenticate(f):
+def authenticate_user(f):
+    @wraps(f)
     def decorator(*args, **kwargs):
-        auth_header = request.headers.get("Authorization")
-        if not auth_header:
-            raise UnauthorizedException()
-        auth_token = auth_header.split(" ")[1]
-        user_id = User.decode_auth_token(auth_token)
-        user = User.get(user_id)
-        if not user or not user.active:
-            raise UnauthorizedException(message="Something went wront. Please contact us.")
+
         return f(user_id, *args, **kwargs)
     return decorator
 
+
+def authenticate_hacker(f):
+    @wraps(f)
+    def decorator(*args, **kwargs):
+
+        return f(user_id, *args, **kwargs)
+    return decorator
+
+def user_privileges(roles):
+    def decorator(f):
+        @wraps(f)
+        def decorated_function(loggedin_username, *args, **kwargs):
+            return f(loggedin_username, *args, **kwargs)
+        return decorated_function
+    return decorator

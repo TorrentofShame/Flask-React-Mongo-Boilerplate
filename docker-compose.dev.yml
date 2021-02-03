@@ -1,26 +1,20 @@
 version: "3"
 services:
-  frontend:
-    container_name: frontend
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile.dev
-    ports:
-      - "127.0.0.1:3000:80"
-    volumes:
-      - ./frontend:/home/frontend/app
+  #frontend:
+    #container_name: frontend
+    #build:
+      #context: ./frontend
+      #dockerfile: Dockerfile.dev
+    #ports:
+      #- "127.0.0.1:3000:80"
+    #volumes:
+      #- ./frontend:/home/frontend/app
       
   mongo:
     image: mongo
     restart: unless-stopped
-    ports:
-      - "127.0.0.1:6000:27017"
     volumes:
       - mongo-data:/data/db
-    environment:
-      MONGO_INITDB_DATABASE: backendtest
-      MONGO_INITDB_ROOT_USERNAME: backendtest
-      MONGO_INITDB_ROOT_PASSWORD: amazingpassword
   
   backend:
     restart: always
@@ -36,7 +30,7 @@ services:
       - "127.0.0.1:5000:5000"
     environment:
       FLASK_ENV: development
-      MONGO_URI: "mongodb://backendtest:amazingpassword@mongo/backendtest"
+      MONGO_URI: "mongodb://mongo/backendtest"
       FLASK_DEBUG: 1
       APP_SETTINGS: server.config.DevelopmentConfig
       
