@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: torrentofshame/frontend
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 5000
+              name: frontend-port
+          env:
+            - name: NODE_ENV
+              value: "production"
+  selector:
+    matchLabels:
+      app: frontend

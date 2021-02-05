@@ -17,7 +17,7 @@ hackers_blueprint = Blueprint("hackers", __name__)
 
 @hackers_blueprint.route("/", methods=["POST"])
 @authenticate_user
-def create_hacker():
+def create_hacker(_):
     """
     Creates a new Hacker.
     ---
@@ -130,7 +130,7 @@ def delete_hacker(hacker_id):
 
 @hackers_blueprint.route("/all", methods=["GET"])
 @authenticate_user
-def get_all_hackers():
+def get_all_hackers(_):
     """
     Get all Hackers.
     ---

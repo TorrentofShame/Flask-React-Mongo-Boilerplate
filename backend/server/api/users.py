@@ -19,7 +19,7 @@ users_blueprint = Blueprint("users", __name__)
 
 @users_blueprint.route("/", methods=["POST"])
 @authenticate_user
-def create_user():
+def create_user(_):
     """
     Creates a new User.
     ---
