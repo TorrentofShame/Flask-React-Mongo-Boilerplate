@@ -20,3 +20,4 @@ produp:
 .PHONY: proddown
 proddown:
 	docker-compose -f $(PROD_COMPOSE) down
+

@@ -7,3 +7,14 @@ export const checkProps = (component, expectedProps) => {
 
 export const capitalize = str => str[0].toUpperCase() + str.slice(1);
 
+
+/* API Utils */
+export const handleSuccess = res => res.body;
+
+export const handleError = err => {
+  if (err.response) { throw err.response; }
+  else {
+    const res = { status: 500, body: { message: "Internal Server Error" } };
+    throw res;
+  }
+};

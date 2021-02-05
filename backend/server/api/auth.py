@@ -4,11 +4,12 @@
     ~~~~~~~~~~~~~~~
 
 """
-from flask import Blueprint, request
-from werkzeug.exceptions import BadRequest
-
-# from server.models.User import User, UserRole
-# from server import db
+from flask import Blueprint, request, current_app
+import jwt
+from werkzeug.exceptions import BadRequest, Forbidden, NotFound
+from server.models.user import User, UserRole
+from server.common.utils import authenticate
+from server import bcrypt
 
 auth_blueprint = Blueprint("auth", __name__)
 
@@ -29,6 +30,20 @@ def login_user():
             schema:
               type: string
               format: date-time
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                auth_token:
+                  type: string
+                  example: abcde123456
+                message:
+                  type: string
+                  example: User was logged in!
+                status:
+                  type: string
+                  example: success
       400:
         description: User login failed.
     requestBody:
@@ -37,21 +52,31 @@ def login_user():
           schema:
             type: object
             properties:
-              email:
+              username:
                 type: string
-                example: foo@bar.com
+                example: foobar
               password:
                 type: string
                 format: password
     """
     data = request.get_json()
-    if not data:
-        raise BadPayload()
+    if not data: raise BadPayload()
+    if not data.get("password"): raise BadPayload()
+        
+    user = User.objects(username=data["username"]).exclude("id").first()
+    if not user: raise NotFound()
+    
+    if not bcrypt.check_password_hash(user.password, data["password"]):
+        raise Forbidden()
+    auth_token, expire_date = user.encode_auth_token()
+    
+
     res = {
         "status": "success",
-        "message": "hacker was added!"
+        "message": "user was logged in!",
+        "auth_token": auth_token.decode()
     }
-    return res, 200
+    return res, 200, [("X-Expires-After", expire_date)]
 
 
 @auth_blueprint.route("/logout", methods=["GET"])

@@ -14,7 +14,7 @@ from flask_jwt import JWT
 from flask_mail import Mail
 from server.common.base import FlaskBase
 from server.tasks import make_celery
-from server.common.utils import authenticate, identity
+
 import yaml
 
 # Flask Config
@@ -27,9 +27,10 @@ bcrypt = Bcrypt()
 mail = Mail()
 jwt = JWT()
 
-ymlstream = open("/home/backend/app/server/schemas.yml", "r")
-schema = yaml.load(ymlstream)
-ymlstream.close()
+# Load the Schema Definitions
+schemastream = open("/home/backend/app/server/schemas.yml", "r")
+schema = yaml.load(schemastream)
+schemastream.close()
 
 swagger_template = {
     "swagger": "3.0",
@@ -51,7 +52,14 @@ swagger_template = {
         "https"
     ],
     "components": {
-        "schemas": schema
+        "schemas": schema,
+        "securitySchemes": {
+            "ApiKeyAuth": {
+                "type": "apiKey",
+                "in": "header",
+                "name": "Authorization"
+            }
+        }
     }
 }
 swagger = Swagger(template=swagger_template)
@@ -61,12 +69,16 @@ def create_app():
     """Initialize the App"""
     app = FlaskBase(__name__)
 
+    from server.common.utils import authenticate, identity
+
     # Setup Extensions
     db.init_app(app)
     swagger.init_app(app)
     bcrypt.init_app(app)
     mail.init_app(app)
-    jwt.init_app(app, authenticate, identity)
+    jwt.authentication_callback = authenticate
+    jwt.identity_callback = identity
+    jwt.init_app(app)
 
     # Register Blueprints
     from server.api.auth import auth_blueprint
@@ -74,7 +86,7 @@ def create_app():
     from server.api.hackers import hackers_blueprint
     
     app.register_blueprint(auth_blueprint, url_prefix="/api/auth")
-    app.register_blueprint(users_blueprint, url_prefix="/api/user")
+    app.register_blueprint(users_blueprint, url_prefix="/api/users")
     app.register_blueprint(hackers_blueprint, url_prefix="/api/hackers")
 
 

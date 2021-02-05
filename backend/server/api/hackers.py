@@ -7,6 +7,7 @@
 from flask import Blueprint, request
 from werkzeug.exceptions import BadRequest
 
+from server.common.decorators import authenticate_user
 from server.models.hacker import Hacker
 from server import db
 
@@ -15,6 +16,7 @@ hackers_blueprint = Blueprint("hackers", __name__)
 ##### Hacker Management #####
 
 @hackers_blueprint.route("/", methods=["POST"])
+@authenticate_user
 def create_hacker():
     """
     Creates a new Hacker.
@@ -43,6 +45,7 @@ def create_hacker():
     return res, 201
 
 @hackers_blueprint.route("/<hacker_id>", methods=["GET"])
+@authenticate_user
 def get_hacker(hacker_id):
     """
     Gets a Hacker.
@@ -72,6 +75,7 @@ def get_hacker(hacker_id):
     pass
 
 @hackers_blueprint.route("/<hacker_id>", methods=["PUT"])
+@authenticate_user
 def update_hacker(hacker_id):
     """
     Updates a Hacker.
@@ -100,6 +104,7 @@ def update_hacker(hacker_id):
     pass
 
 @hackers_blueprint.route("/<hacker_id>", methods=["DELETE"])
+@authenticate_user
 def delete_hacker(hacker_id):
     """
     Deletes a Hacker.
@@ -124,6 +129,7 @@ def delete_hacker(hacker_id):
 
 
 @hackers_blueprint.route("/all", methods=["GET"])
+@authenticate_user
 def get_all_hackers():
     """
     Get all Hackers.

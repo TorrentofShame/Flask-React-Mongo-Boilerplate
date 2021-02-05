@@ -9,6 +9,7 @@ COPY requirements.txt ./
 
 USER backend
 
+
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY --chown=backend:backend . .

@@ -4,12 +4,13 @@
     ~~~~~~~~~~~~~~~~
 
 """
-from flask import Blueprint, request
+from flask import Blueprint, request, current_app
 from flask_jwt import jwt_required, current_identity
 from werkzeug.exceptions import BadRequest, NotFound
 
+from server.common.decorators import authenticate_user, user_privileges
 from server.models.user import User, UserRole
-from server import db
+from server import db, bcrypt
 
 users_blueprint = Blueprint("users", __name__)
 
@@ -17,7 +18,7 @@ users_blueprint = Blueprint("users", __name__)
 ##### User Management #####
 
 @users_blueprint.route("/", methods=["POST"])
-@jwt_required()
+@authenticate_user
 def create_user():
     """
     Creates a new User.
@@ -41,6 +42,7 @@ def create_user():
     data = request.get_json()
     if not data:
         raise BadRequest()
+    data["password"] = bcrypt.generate_password_hash(data["password"], current_app.config.get("BCRYPT_LOG_ROUNDS")).decode()
     user = User(**data)
     user.save()
     res = {
@@ -50,7 +52,7 @@ def create_user():
     return res, 201
 
 @users_blueprint.route("/<username>", methods=["GET"])
-@jwt_required()
+@authenticate_user
 def get_user(username):
     """
     Gets a User.
@@ -83,7 +85,7 @@ def get_user(username):
       404:
         description: User not found
     """
-    user = User.objects(username=username).exclude("id", "password").first()
+    user = User.findOne(username=username, excludes=["password"])
     if not user:
         raise NotFound(description="User does not exist.")
     res = {
@@ -94,7 +96,7 @@ def get_user(username):
 
 
 @users_blueprint.route("/<username>", methods=["PUT"])
-@jwt_required()
+@authenticate_user
 def update_user(username):
     """
     Updates a User.
@@ -138,7 +140,7 @@ def update_user(username):
     return res
 
 @users_blueprint.route("/<username>", methods=["DELETE"])
-@jwt_required()
+@authenticate_user
 def delete_user(username):
     """
     Deletes a User.
@@ -172,8 +174,8 @@ def delete_user(username):
     return res, 200
 
 @users_blueprint.route("/all", methods=["GET"])
-@jwt_required()
-def get_all_users():
+@authenticate_user
+def get_all_users(_):
     """
     Get all Users
     ---
@@ -193,3 +195,17 @@ def get_all_users():
     users = User.objects.exclude("id", "password").to_json()
     return users, 200
 
+
+@users_blueprint.route("/echo", methods=["GET"])
+@authenticate_user
+def echo_user(username):
+    """
+    Echo the user
+    ---
+    tags:
+      - user
+    responses:
+      default:
+        description: Nice.
+    """
+    return username, 200

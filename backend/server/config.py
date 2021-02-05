@@ -32,6 +32,7 @@ class BaseConfig:
     SWAGGER={
         "openapi": "3.0.0"
     }
+    JWT_AUTH_HEADER_NAME = "Authorization"
 
 
 class DevelopmentConfig(BaseConfig):

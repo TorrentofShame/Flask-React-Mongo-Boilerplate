@@ -1,6 +1,5 @@
 README.md
 __pycache__
-setup.py
 .env
 venv
 *.log
