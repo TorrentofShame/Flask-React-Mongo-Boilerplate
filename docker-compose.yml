@@ -2,15 +2,16 @@ version: "3"
 services:
   frontend:
     container_name: frontend
+    image: torrentofshame/frontend
     build:
       context: ./frontend
       dockerfile: Dockerfile
     ports:
       - 80:80
-      - 443:443
       
   mongo:
     image: mongo
+    container_name: mongo
     restart: unless-stopped
     volumes:
       - mongo-data:/data/db
@@ -20,9 +21,10 @@ services:
     depends_on:
       - mongo
     container_name: backend
-    build: ./backend
-    expose:
-      - 5000
+    image: torrentofshame/backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
     environment:
       - FLASK_ENV=production
       - FLASK_APP=app.py
