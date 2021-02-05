@@ -5,6 +5,8 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import "_styles/style.scss";
 
+const isProd = process.env.NODE_ENV !== "development";
+
 /* Render App */
 ReactDOM.render(
   <React.StrictMode>

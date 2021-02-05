@@ -1,18 +1,16 @@
 FROM python:3.9.0
 LABEL maintainer="simon@torrentofshame.com"
 
-RUN mkdir -p /home/backend/app/ && chown -R backend:backend /home/backend/app
+RUN mkdir -p /home/backend/app/
 
 WORKDIR /home/backend/app
 
 COPY requirements.txt ./
 
-USER backend
-
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY --chown=backend:backend . .
+COPY . .
 
 ENV LOGGING_LOCATION=/var/log/flask-base.log
 

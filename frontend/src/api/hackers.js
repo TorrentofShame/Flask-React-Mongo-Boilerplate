@@ -15,7 +15,7 @@ export const gethacker = hackerID =>
 
 export const updatehacker = ({hackerID, hacker}) =>
   sa.put(`/api/hackers/${hackerID}`)
-	.send(hacker)
+    .send(hacker)
     .then(handleSuccess)
     .catch(handleError);
 

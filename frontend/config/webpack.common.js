@@ -95,8 +95,8 @@ module.exports = {
       emitWarning: true
     }),
     new HtmlWebpackPlugin({
-      favicon: helpers.root("public/favicon.png"),
-      template: helpers.root("public/index.html")
+      favicon: helpers.root("src/assets/favicon.png"),
+      template: helpers.root("src/index.html")
     }),
     new WebpackPwaManifest({
       filename: "manifest.json",

@@ -15,7 +15,7 @@ export const getUser = username =>
 
 export const updateUser = ({username, user}) =>
   sa.put(`/api/users/${username}`)
-	.send(user)
+    .send(user)
     .then(handleSuccess)
     .catch(handleError);
 

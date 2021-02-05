@@ -31,5 +31,5 @@ services:
       - MONGO_URI=mongodb://mongo/
       - APP_SETTINGS=server.config.ProductionConfig
       
-  volumes:
-    mongo-data
+volumes:
+    mongo-data:

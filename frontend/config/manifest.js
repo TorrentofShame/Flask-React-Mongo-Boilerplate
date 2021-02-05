@@ -10,7 +10,7 @@ module.exports = {
   background_color: "#FFFFFF",
   icons: [
     {
-      src: helpers.root("public/favicon.ico"),
+      src: helpers.root("src/assets/favicon.ico"),
       sizes: [48],
       type: "image/x-icon",
       destination: path.join("icons")

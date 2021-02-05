@@ -5,7 +5,7 @@ KUBE_DIR := kube-config
 # start dev docker compose
 .PHONY: devup
 devup:
-	docker-compose -f $(DEV_COMPOSE) up
+	docker-compose -f $(DEV_COMPOSE) up -d
 
 # stop dev docker compose
 .PHONY: devdown
@@ -15,7 +15,7 @@ devdown:
 # start prod docker compose
 .PHONY: produp
 produp:
-	docker-compose -f $(PROD_COMPOSE) up
+	docker-compose -f $(PROD_COMPOSE) up -d
 
 # stop prod docker compose
 .PHONY: proddown
@@ -25,11 +25,11 @@ proddown:
 # Build production images
 .PHONY: build
 build:
-	docker-compose -d -f $(PROD_COMPOSE) build
+	docker-compose -f $(PROD_COMPOSE) build
 
 # Create Kube Containers
 .PHONY: kubecreate
-kubecreate: | build
+kubecreate:
 	kubectl create -f $(KUBE_DIR)
 
 # Delete Kube Containers

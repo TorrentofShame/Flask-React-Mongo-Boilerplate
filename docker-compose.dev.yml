@@ -1,15 +1,15 @@
 version: "3"
 services:
-  #frontend:
-    #container_name: frontend
-    #image: torrentofshame/frontend
-    #build:
-      #context: ./frontend
-      #dockerfile: Dockerfile.dev
-    #ports:
-      #- "127.0.0.1:3000:80"
-    #volumes:
-      #- ./frontend:/home/frontend/app
+  frontend:
+    container_name: frontend
+    image: torrentofshame/frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "127.0.0.1:3000:80"
+    volumes:
+      - ./frontend:/home/frontend/app
       
   mongo:
     image: mongo
