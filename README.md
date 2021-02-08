@@ -15,33 +15,85 @@
 
 1. Clone the project
 
-```
-git clone https://gitlab.com/torrentofshame/flask-react-mongo-boilerplate.git
-```
+`git clone https://gitlab.com/torrentofshame/flask-react-mongo-boilerplate.git`
 
 2. Move to `flask-react-mongo-boilerplate`
 
-```
-cd flask-react-mongo-boilerplate
-```
+`cd flask-react-mongo-boilerplate`
 
 3. Run it
 
-In Production:
+### In Production:
+
+`make produp`
+
+`make proddown`
+
+### In Development:
+
+`make devup`
+
+`make devdown`
+
+### Backend Only
+
+1. Clone the project
+
+`git clone https://gitlab.com/torrentofshame/flask-react-mongo-boilerplate.git`
+
+2. Move to `flask-react-mongo-boilerplate`
+
+`cd flask-react-mongo-boilerplate`
+
+3. Run it
+
+#### With Docker:
+
+**Requirements**
+
+- Docker
+- Docker Compose
+
+Comment out `frontend-service` in `docker-compose.dev.yml`
+
+Run
+
+`make devup`
+
+`make devdown`
+
+#### Without Docker:
+
+**Requirements**
+
+- Python 3.9
+- MongoDB Server
+
+Move to `backend`
+
+`cd backend`
+
+Create a file named `.env` and add the following content, replacing necessary values.
 
 ```
-make produp
-
-make proddown
+APP_SETTINGS=server.config.DevelopmentConfig
+MONGO_URI=mongo://username:password@mongodb-uri:27017/yourdatabase
+SECRET_KEY=vivalapluto
+MAIL_SERVER=smtp.mailserver.com
+MAIL_PORT=587
+MAIL_USERNAME=myemail@myemail.com
+MAIL_PASSWORD=12345
+MAIL_SENDER=myemail@myemail.com
 ```
 
-In Development:
+Install Python Dependencies
 
-```
-make devup
+`pip install -r requirements.txt`
 
-make devdown
-```
+Run the server
+
+`python -m server --host=0.0.0.0 --port=5000`
+
 
 ## Dependencies
 
