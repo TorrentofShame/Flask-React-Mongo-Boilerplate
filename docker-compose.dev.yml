@@ -1,39 +1,39 @@
 version: "3"
 services:
-  frontend:
-    container_name: frontend
+  frontend-service:
+    container_name: frontend-service
     image: torrentofshame/frontend
     build:
       context: ./frontend
       dockerfile: Dockerfile.dev
     ports:
-      - "127.0.0.1:3000:80"
+      - "127.0.0.1:3000:3000"
     volumes:
       - ./frontend:/home/frontend/app
       
-  mongo:
+  mongo-service:
     image: mongo
-    container_name: mongo
+    container_name: mongo-service
     restart: unless-stopped
     volumes:
       - mongo-data:/data/db
   
-  backend:
+  backend-service:
     restart: always
     depends_on:
-      - mongo
-    container_name: backend
+      - mongo-service
+    container_name: backend-service
     image: torrentofshame/backend
     build:
       context: ./backend
       dockerfile: Dockerfile.dev
-    volumes:
-      - ./backend:/home/backend/app
     ports:
       - "127.0.0.1:5000:5000"
+    volumes:
+      - ./backend:/home/backend/app
     environment:
       FLASK_ENV: development
-      MONGO_URI: "mongodb://mongo/backendtest"
+      MONGO_URI: "mongodb://mongo-service/backendtest"
       FLASK_DEBUG: 1
       APP_SETTINGS: server.config.DevelopmentConfig
       

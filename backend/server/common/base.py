@@ -2,6 +2,13 @@
 """
     server.common.base
     ~~~~~~~~~~~~~~~~~~
+    Base definitions for Flask sub-classing.
+
+    Classes:
+
+        JSONEncoderBase
+        ResponseBase
+        FlaskBase
 
 """
 import os
