@@ -1,5 +1,9 @@
 # Flask React Mongo Boilerplate
 
+A Boilerplate using Flask, flasgger, and MongoDB for the backend and Webpack and React for the frontend.
+
+The official home of this repository is at [https://gitlab.com/torrentofshame/flask-react-mongo-boilerplate](https://gitlab.com/torrentofshame/flask-react-mongo-boilerplate).
+
 ## Contents
 
 - [Quick Start](#quick-start)
@@ -93,7 +97,6 @@ Install Python Dependencies
 Run the server
 
 `python -m server --host=0.0.0.0 --port=5000`
-
 
 ## Dependencies
 
