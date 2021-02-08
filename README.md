@@ -154,8 +154,8 @@ Run the server
 │   │   ├── __main__.py				# Start server from cli arguments
 │   │   ├── config.py				# Server configuration settings
 │   │   └── schemas.yml				# Swagger schema definitions
-│	├── Dockerfile					# Dockerfile for production use
-│	└── Dockerfile.dev				# Dockerfile for development use
+│   ├── Dockerfile					# Dockerfile for production use
+│   └── Dockerfile.dev				# Dockerfile for development use
 │
 │
 ├── docker-compose.dev.yml			# Docker Compose development configuration
