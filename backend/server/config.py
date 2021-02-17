@@ -30,7 +30,11 @@ class BaseConfig:
     MAIL_SENDER = os.getenv("MAIL_SENDER")
     CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")
     SWAGGER = {
-        "openapi": "3.0.0"
+        "openapi": "3.0.0",
+        "specs": [{
+            "endpoint": "spec",
+            "route": "/apispec.json"
+        }]
     }
     JWT_AUTH_HEADER_NAME = "Authorization"
 
