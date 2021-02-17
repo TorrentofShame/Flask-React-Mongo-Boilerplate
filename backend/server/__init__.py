@@ -90,11 +90,10 @@ def create_app():
     app.register_blueprint(users_blueprint, url_prefix="/api/users")
     app.register_blueprint(hackers_blueprint, url_prefix="/api/hackers")
 
-
     # Setup Celery Task Runner
     celery = make_celery(app)
 
     return app, celery
 
-app, celery = create_app()
 
+app, celery = create_app()
