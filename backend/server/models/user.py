@@ -13,6 +13,7 @@ from server import db
 
 UserRole = ("USER", "ADMIN")
 
+
 class User(db.Document):
     first_name = db.StringField()
     last_name = db.StringField()
@@ -21,16 +22,6 @@ class User(db.Document):
     email = db.EmailField(unique=True)
     role = db.StringField(choices=UserRole)
 
-    def to_json(self):
-        return {
-            "first_name": self.first_name,
-            "last_name": self.last_name,
-            "username": self.username,
-            "password": self.password,
-            "email": self.email,
-            "role": self.role
-        }
-        
     @staticmethod
     def findOne(*args, **kwargs):
         """Finds one User"""
@@ -50,10 +41,10 @@ class User(db.Document):
         }
         return jwt.encode(
             payload,
-            current_app.config.get("SECRET_KEY"),
+            current_app.config.get("SECRET_KEY", "vivalapluto"),
             algorithm="HS256"
         ), expires_at
-    
+
     @staticmethod
     def decode_auth_token(auth_token):
         """Decodes the auth token"""
@@ -64,4 +55,4 @@ class User(db.Document):
             return Forbidden()
         except jwt.InvalidTokenError:
             return Forbidden()
-    
+

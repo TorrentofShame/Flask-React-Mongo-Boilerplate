@@ -15,7 +15,23 @@ from server import db, bcrypt
 users_blueprint = Blueprint("users", __name__)
 
 
-##### User Management #####
+@users_blueprint.route("/ping", methods=["GET"])
+def user_ping():
+    """
+    Pings the Endpoint
+    ---
+    tags:
+      - user
+    summary: Pong!
+    responses:
+      default:
+        description: Pong!
+    """
+    return {"message": "Pong!"}, 200
+
+
+""" User Management """
+
 
 @users_blueprint.route("/", methods=["POST"])
 @authenticate_user

@@ -15,20 +15,30 @@
         args
         app
 """
-import argparse
+import os
+import unittest
+from flask.cli import FlaskGroup
 from server import app
 
-# Setup the Parser
-parser = argparse.ArgumentParser()
+os.environ["FLASK_APP"] = "server.__main__:main()"
 
-# Define the arguments
-parser.add_argument("--host", type=str, help="The host to listen on (default: 127.0.0.1)", default="127.0.0.1")
-parser.add_argument("--port", type=int, help="The port to listen on (default: 5000)", default=5000)
-args = parser.parse_args()
+
+cli = FlaskGroup(app)
+
 
 def main():
-    app.run(host=args.host, port=args.port)
-    print(f"Listening on: {args.host}:{args.port}")
+    return app
+
+
+@cli.command()
+def test():
+    """Runs the tests without code coverage"""
+    tests = unittest.TestLoader().discover("test", pattern="test_*.py")
+    result = unittest.TextTestRunner(verbosity=2).run(tests)
+    if result.wasSuccessful():
+        return 0
+    return 1
+
 
 if __name__ == "__main__":
-    main()
+    cli()

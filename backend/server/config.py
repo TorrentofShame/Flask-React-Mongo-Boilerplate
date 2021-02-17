@@ -20,7 +20,7 @@ class BaseConfig:
     TOKEN_EXPIRATION_SECONDS = 0
     TOKEN_PASSWORD_EXPIRATION_DAYS = 1
     TOKEN_PASSWORD_EXPIRATION_SECONDS = 0
-    MONGODB_HOST = os.getenv("MONGO_URI")
+    MONGODB_HOST = os.getenv("MONGO_URI", "mongodb://localhost:27017/")
     MAIL_SERVER = os.getenv("MAIL_SERVER")
     MAIL_PORT = os.getenv("MAIL_PORT")
     MAIL_USE_TLS = os.getenv("MAIL_USE_TLS", "false").lower() == "true"
@@ -29,7 +29,7 @@ class BaseConfig:
     MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
     MAIL_SENDER = os.getenv("MAIL_SENDER")
     CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")
-    SWAGGER={
+    SWAGGER = {
         "openapi": "3.0.0"
     }
     JWT_AUTH_HEADER_NAME = "Authorization"
@@ -59,4 +59,3 @@ class ProductionConfig(BaseConfig):
     """Production Configuration"""
     DEBUG = False
     CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
-

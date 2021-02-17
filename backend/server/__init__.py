@@ -4,7 +4,7 @@
     ~~~~~~~~~~~~~~~
 
 """
-import os
+from os import path, getenv
 
 from flask import Config
 from flasgger import Swagger
@@ -18,8 +18,8 @@ from server.tasks import make_celery
 import yaml
 
 # Flask Config
-conf = Config(root_path=os.path.dirname(os.path.realpath(__file__)))
-conf.from_object(os.getenv("APP_SETTINGS", "server.config.DevelopmentConfig"))
+conf = Config(root_path=path.dirname(path.realpath(__file__)))
+conf.from_object(getenv("APP_SETTINGS", "server.config.DevelopmentConfig"))
 
 # Init Extensions
 db = MongoEngine()
@@ -28,8 +28,9 @@ mail = Mail()
 jwt = JWT()
 
 # Load the Schema Definitions
-schemastream = open("/home/backend/app/server/schemas.yml", "r")
-schema = yaml.load(schemastream)
+schemapath = path.join(path.abspath(path.dirname(__file__)), "schemas.yml")
+schemastream = open(schemapath, "r")
+schema = yaml.load(schemastream, Loader=yaml.FullLoader)
 schemastream.close()
 
 swagger_template = {
@@ -84,7 +85,7 @@ def create_app():
     from server.api.auth import auth_blueprint
     from server.api.users import users_blueprint
     from server.api.hackers import hackers_blueprint
-    
+
     app.register_blueprint(auth_blueprint, url_prefix="/api/auth")
     app.register_blueprint(users_blueprint, url_prefix="/api/users")
     app.register_blueprint(hackers_blueprint, url_prefix="/api/hackers")
